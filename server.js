@@ -3,12 +3,15 @@ const request = require('request').defaults({ encoding: null });
 const Canvas = require('canvas-prebuilt');
 const Image = Canvas.Image;
 const app = express();
-const allowCrossDomain = function (req, res, next) {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With,  Cache-Control, Content-Type, Accept, Authorization");
+const bodyParser = require('body-parser');
+
+// default options
+app.use(bodyParser.json());
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Content-Type', 'application/json');
 
     // intercept OPTIONS method
     if ('OPTIONS' == req.method) {
@@ -16,13 +19,12 @@ const allowCrossDomain = function (req, res, next) {
     } else {
         next();
     }
-};
+});
 
-// default options
-app.use(allowCrossDomain);
 
 app.post('/getqrcode', function (req, res) {
     // const imageURL = 'https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=https://www.infiniteimaginations.co/?qr=1/#/hello/';
+
     const imageURL = req.body.endpoint;
 
     request({
