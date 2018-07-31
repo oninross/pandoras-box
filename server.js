@@ -25,8 +25,11 @@ app.use(function (req, res, next) {
 app.get('/getqrcode', function (req, res) {
     // const imageURL = req.body.endpoint;
     // const imageURL = 'https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=https://www.infiniteimaginations.co/?qr=1/#/hello/';
-    const imageURL = 'https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=https://qfrankp.au1.qualtrics.com/jfe/form/SV_9pGqjlKZMuZetJX?BoxLabel=Nino%27s%20Box%20of%20Tricks';
+    /* const imageURL = 'https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=https://qfrankp.au1.qualtrics.com/jfe/form/SV_9pGqjlKZMuZetJX?BoxLabel=Nino%27s%20Box%20of%20Tricks'; */
 
+    console.log(req.query.url)
+
+    const imageURL = 'https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=' + req.query.url;
 
     request({
         url: imageURL,
